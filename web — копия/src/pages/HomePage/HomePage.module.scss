@@ -1,54 +1,67 @@
-/* HomePage.module.scss */
-
-/* Высота нав бара (должна совпадать с фактической высотой NavBar) */
-:root {
-  --navbar-height: 70px;  /* поправь под точную высоту */
-}
+@use '../../styles/tokens' as *;
+@use '../../styles/mixins' as *;
 
 .hero {
   width: 100%;
-  height: calc(100vh - var(--navbar-height)); /* картинка = экран минус навбар */
-  min-height: 400px;
+  min-height: calc(100vh - $navbar-height);
+  min-height: 500px;
 
   background-image: url('../../assets/images/altai-photo.jpg');
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
+  @include flex-center;
+  
   position: relative;
-  color: #fff;
-  margin-top: var(--navbar-height); /* отодвигаем фото вниз под навбар */
+  color: $color-white;
+  margin-top: $navbar-height;
+
+  @include media-sm {
+    min-height: 600px;
+  }
+
+  @include media-lg {
+    min-height: calc(100vh - $navbar-height);
+  }
 }
 
 .overlay {
   text-align: center;
-  padding: 24px;
-  background: rgba(0,0,0,0.3);
-  border-radius: 12px;
+  padding: $spacing-6;
+  background: $color-overlay-dark;
+  border-radius: $border-radius-lg;
+  max-width: 90%;
+
+  @include media-md {
+    padding: $spacing-8;
+    max-width: 80%;
+  }
+
+  @include media-lg {
+    padding: $spacing-10;
+    max-width: 1000px;
+  }
 }
 
 .title {
   margin: 0;
-  font-size: 28px;
-  line-height: 1.05;
-  font-weight: 700;
-  text-shadow: 0 2px 6px rgba(0,0,0,0.5);
+  font-size: $font-size-3xl;
+  line-height: $line-height-tight;
+  font-weight: $font-weight-bold;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+
+  @include media-md {
+    font-size: $font-size-4xl;
+  }
+
+  @include media-lg {
+    font-size: $font-size-5xl;
+  }
 }
 
 .region {
   text-decoration: underline;
   display: inline-block;
-}
-
-/* Адаптивность */
-@media (min-width: 768px) {
-  .title { font-size: 40px; }
-}
-
-@media (min-width: 1024px) {
-  .title { font-size: 48px; }
+  text-underline-offset: $spacing-2;
 }
