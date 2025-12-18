@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import NavBar from "../../components/NavBar/NavBar";
 import SecondarySubBar from "../../components/SecondarySubBar/SecondarySubBar";
+import ContentBlock from "../../components/ContentBlock/ContentBlock";
+import NavigationButton from "../../components/NavigationButton/NavigationButton";
+import PageNavigationMenu from "../../components/PageNavigationMenu/PageNavigationMenu";
+import { CONTENT_BLOCKS } from "../../constants/contentBlocks";
 import styles from "./RegionIndicatorsPage.module.scss";
 
 const TOP_MENUS = [
@@ -56,6 +60,60 @@ export default function RegionIndicatorsPage() {
     }
   };
 
+  // Get current section ID (submenu item or top menu item)
+  const getCurrentSectionId = () => {
+    if (activeSubItemId) return activeSubItemId;
+    if (activeTopMenuId) return activeTopMenuId;
+    return null;
+  };
+
+  // Get navigation info
+  const getNavigationInfo = () => {
+    const currentSectionId = getCurrentSectionId();
+    if (!currentSectionId) return { prev: null, next: null };
+
+    // Find all sections (flatten structure)
+    const allSections = [];
+    TOP_MENUS.forEach(menu => {
+      if (menu.submenu && menu.submenu.length > 0) {
+        menu.submenu.forEach(sub => {
+          allSections.push({ id: sub.id, label: sub.label, parentId: menu.id });
+        });
+      } else {
+        allSections.push({ id: menu.id, label: menu.label.replace("\n", " "), parentId: null });
+      }
+    });
+
+    const currentIndex = allSections.findIndex(s => s.id === currentSectionId);
+    const prev = currentIndex > 0 ? allSections[currentIndex - 1] : null;
+    const next = currentIndex < allSections.length - 1 ? allSections[currentIndex + 1] : null;
+
+    return { prev, next };
+  };
+
+  const { prev, next } = getNavigationInfo();
+
+  const handleNavigate = (section) => {
+    if (!section) return;
+    
+    if (section.parentId) {
+      // It's a submenu item
+      setActiveTopMenuId(section.parentId);
+      setActiveSubItemId(section.id);
+    } else {
+      // It's a top menu item
+      setActiveTopMenuId(section.id);
+      setActiveSubItemId(null);
+    }
+
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  // Get content blocks for current section
+  const currentSectionId = getCurrentSectionId();
+  const contentBlocks = currentSectionId ? (CONTENT_BLOCKS[currentSectionId] || []) : [];
+
   return (
     <div className={styles.page}>
       <NavBar
@@ -74,14 +132,41 @@ export default function RegionIndicatorsPage() {
       )}
 
       <main className={styles.main}>
-        {activeMenu && activeSubItemId && (
-          <section className={styles.content}>
-            <h2>
-              {activeMenu.label.replace("\n", " ")} — {activeMenu.submenu.find(s => s.id === activeSubItemId)?.label}
-            </h2>
+        {contentBlocks.length > 0 ? (
+          <div className={styles.content}>
+            {contentBlocks.map((block) => (
+              <ContentBlock
+                key={block.id}
+                id={block.id}
+                title={block.title}
+                chartType="bar"
+              />
+            ))}
+          </div>
+        ) : (
+          <section className={styles.placeholder}>
+            <p>Выберите раздел для отображения данных</p>
           </section>
         )}
       </main>
+
+      {contentBlocks.length > 0 && (
+        <PageNavigationMenu blocks={contentBlocks} />
+      )}
+
+      <NavigationButton
+        direction="left"
+        label={prev?.label || ""}
+        onClick={() => handleNavigate(prev)}
+        disabled={!prev}
+      />
+      
+      <NavigationButton
+        direction="right"
+        label={next?.label || ""}
+        onClick={() => handleNavigate(next)}
+        disabled={!next}
+      />
     </div>
   );
 }

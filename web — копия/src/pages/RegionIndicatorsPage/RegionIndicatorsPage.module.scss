@@ -5,15 +5,30 @@
   min-height: 100vh;
   background: $color-bg-page;
   padding-top: $navbar-height;
+  padding-bottom: $spacing-16;
 }
 
 .main {
   @include container;
   margin: $spacing-6 auto;
   padding: $spacing-4;
-
+  
   @include media-md {
     margin: $spacing-8 auto;
+    padding: $spacing-6;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: $spacing-4 0;
+  
+  @include media-md {
+    padding: $spacing-6 0;
   }
 }
 
@@ -22,38 +37,17 @@
   text-align: center;
   color: $color-text-secondary;
   padding: $spacing-8;
-
+  
   @include media-md {
     padding: $spacing-12;
   }
-}
-
-.content {
-  padding: $spacing-2 0;
-
-  @include media-md {
-    padding: $spacing-4 0;
-  }
-}
-
-.grid {
-  display: grid;
-  gap: $spacing-4;
-  grid-template-columns: 1fr;
-
-  @include media-md {
-    gap: $spacing-6;
-  }
-
-  @include media-lg {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-.card {
-  @include card;
   
-  @include media-md {
-    padding: $spacing-8;
+  p {
+    margin: 0;
+    font-size: $font-size-lg;
+    
+    @include media-md {
+      font-size: $font-size-xl;
+    }
   }
 }
