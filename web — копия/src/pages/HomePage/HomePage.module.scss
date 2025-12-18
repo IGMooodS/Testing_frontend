@@ -13,9 +13,8 @@
 
   @include flex-center;
   
-  position: relative;
+  position: fixed;
   color: $color-white;
-  margin-top: $navbar-height;
 
   @include media-sm {
     min-height: 600px;
@@ -58,10 +57,4 @@
   @include media-lg {
     font-size: $font-size-5xl;
   }
-}
-
-.region {
-  text-decoration: underline;
-  display: inline-block;
-  text-underline-offset: $spacing-2;
 }
