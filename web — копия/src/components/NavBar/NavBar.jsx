@@ -51,7 +51,18 @@ const NavBar = ({
   return (
     <header className={styles.header} role="banner">
       <div className={styles.inner}>
-        <div className={styles.brand}>Лаборатория урбанистических исследований ВШЭ</div>
+        <div 
+          className={styles.brand}
+          role="button"
+          tabIndex={0}
+          onClick={() => navigate("/")}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") navigate("/");
+          }}
+          aria-label="Перейти на главную"
+        >
+          Лаборатория урбанистических исследований ВШЭ
+        </div>
 
         <nav className={styles.controls} aria-label="Главная навигация">
           <div className={styles.item}>

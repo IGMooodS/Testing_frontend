@@ -51,3 +51,18 @@
     }
   }
 }
+
+.navigationButtons {
+  @include container;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: $spacing-4;
+  margin: $spacing-6 auto;
+  padding: 0 $spacing-4;
+  
+  @include media-md {
+    margin: $spacing-8 auto;
+    padding: 0 $spacing-6;
+  }
+}
