@@ -1,42 +1,59 @@
+@use '../../styles/tokens' as *;
+@use '../../styles/mixins' as *;
+
 .page {
   min-height: 100vh;
-  background: #D0E3C8;
-  padding-top: var(--navbar-height, 70px); /* учитываем фиксированный nav */
+  background: $color-bg-page;
+  padding-top: $navbar-height;
 }
 
 .main {
-  max-width: 1200px;
-  margin: 24px auto;
-  padding: 16px;
+  @include container;
+  margin: $spacing-6 auto;
+  padding: $spacing-4;
+
+  @include media-md {
+    margin: $spacing-8 auto;
+  }
 }
 
 .placeholder {
-  background: #f8faf8;
-  border-radius: 10px;
-  padding: 24px;
+  @include card;
   text-align: center;
-  color: #374151;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.04);
+  color: $color-text-secondary;
+  padding: $spacing-8;
+
+  @include media-md {
+    padding: $spacing-12;
+  }
 }
 
 .content {
-  padding: 8px 0;
+  padding: $spacing-2 0;
+
+  @include media-md {
+    padding: $spacing-4 0;
+  }
 }
 
 .grid {
   display: grid;
-  gap: 16px;
+  gap: $spacing-4;
   grid-template-columns: 1fr;
+
+  @include media-md {
+    gap: $spacing-6;
+  }
+
+  @include media-lg {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .card {
-  background: #fff;
-  border-radius: 8px;
-  padding: 18px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-}
-
-/* на больших экранах — 2 колонки для графиков */
-@media (min-width: 920px) {
-  .grid { grid-template-columns: 1fr 1fr; }
+  @include card;
+  
+  @include media-md {
+    padding: $spacing-8;
+  }
 }

@@ -1,106 +1,166 @@
-/* CompareDropdown.module.scss */
+@use '../../styles/tokens' as *;
+@use '../../styles/mixins' as *;
+@use 'sass:color';
+
 .root {
   position: relative;
   display: inline-block;
 }
 
 .trigger {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 8px 12px;
-  font-size: 15px;
-  border-radius: 6px;
+  @include button-reset;
+  @include interactive-hover;
+  
+  padding: $spacing-2 $spacing-3;
+  font-size: $font-size-sm;
+  border-radius: $border-radius-md;
+  white-space: nowrap;
+
+  @include media-md {
+    font-size: $font-size-base;
+    padding: $spacing-2 $spacing-4;
+  }
 }
 
 .caret {
-  margin-left: 6px;
-  font-size: 12px;
+  margin-left: $spacing-2;
+  font-size: $font-size-xs;
   opacity: 0.8;
 }
 
-/* панель выпадающего списка */
 .panel {
   position: absolute;
-  top: calc(100% + 8px);
+  top: calc(100% + $spacing-2);
   left: 0;
-  min-width: 260px;
-  max-width: 360px;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
-  padding: 12px;
-  z-index: 200;
+  right: 0;
+  min-width: 280px;
+  max-width: 90vw;
+  background: $color-bg-primary;
+  border-radius: $border-radius-md;
+  box-shadow: $shadow-xl;
+  padding: $spacing-3;
+  z-index: $z-index-dropdown;
+  border: $border-width solid $color-border;
+
+  @include media-sm {
+    min-width: 320px;
+    max-width: 400px;
+    right: auto;
+  }
+
+  @include media-md {
+    padding: $spacing-4;
+  }
 }
 
-/* инструкции */
 .instructions {
-  font-size: 13px;
-  margin-bottom: 8px;
-  color: #374151;
+  font-size: $font-size-sm;
+  margin-bottom: $spacing-2;
+  color: $color-text-secondary;
 }
 
-/* список */
 .list {
-  max-height: 200px;
+  max-height: 240px;
   overflow: auto;
   margin: 0;
   padding: 0;
   list-style: none;
-  border: 1px solid #f3f4f6;
-  border-radius: 6px;
+  border: $border-width solid $color-gray-100;
+  border-radius: $border-radius-sm;
+  background: $color-bg-secondary;
+
+  @include media-md {
+    max-height: 280px;
+  }
 }
 
 .item {
-  padding: 8px 10px;
+  padding: $spacing-2 $spacing-3;
   display: flex;
   align-items: center;
+  border-bottom: $border-width solid $color-border;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    background: $color-gray-50;
+  }
 }
 
 .label {
   display: flex;
-  gap: 8px;
+  gap: $spacing-2;
   align-items: center;
   cursor: pointer;
+  width: 100%;
+  
+  input[type="checkbox"] {
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+  }
 }
 
 .labelText {
-  font-size: 14px;
+  font-size: $font-size-sm;
+  flex: 1;
+
+  @include media-md {
+    font-size: $font-size-base;
+  }
 }
 
-/* действия */
 .actions {
   display: flex;
   justify-content: space-between;
-  gap: 8px;
-  margin-top: 10px;
+  gap: $spacing-2;
+  margin-top: $spacing-3;
+
+  @include media-md {
+    gap: $spacing-3;
+  }
+}
+
+.clear,
+.confirm {
+  @include button-reset;
+  
+  padding: $spacing-2 $spacing-3;
+  border-radius: $border-radius-sm;
+  font-size: $font-size-sm;
+  transition: all $transition-fast;
+  flex: 1;
+
+  @include media-md {
+    font-size: $font-size-base;
+    padding: $spacing-2 $spacing-4;
+  }
 }
 
 .clear {
   background: transparent;
-  border: 1px solid #ddd;
-  padding: 6px 10px;
-  border-radius: 6px;
-  font-size: 14px;
-  cursor: pointer;
+  border: $border-width solid $color-border;
+  color: $color-text-secondary;
+
+  &:hover {
+    background: $color-gray-50;
+    border-color: $color-gray-300;
+  }
 }
 
 .confirm {
-  background: #2563eb;
-  color: #fff;
+  background: $color-primary;
+  color: $color-white;
   border: none;
-  padding: 6px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-}
 
-.confirm[disabled],
-.confirm[aria-disabled="true"] {
-  opacity: 0.45;
-  cursor: not-allowed;
-}
+  &:hover:not(:disabled) {
+    background: color.adjust($color-primary, $lightness: -10%);
+  }
 
-/* адаптив: панель растёт по ширине при большом экране */
-@media (min-width: 900px) {
-  .panel { min-width: 320px; }
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 }
