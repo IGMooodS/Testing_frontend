@@ -1,0 +1,16 @@
+.root {
+  position: relative;
+  display: inline-block;
+}
+
+.panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  min-width: 240px;
+  background: #fff;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+  z-index: 200;
+}

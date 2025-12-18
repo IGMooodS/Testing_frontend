@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import NavBar from "../NavBar/NavBar";
-import SecondarySubBar from "../SecondarySubBar/SecondarySubBar";
+import NavBar from "../../components/NavBar/NavBar";
+import SecondarySubBar from "../../components/SecondarySubBar/SecondarySubBar";
 import styles from "./RegionIndicatorsPage.module.scss";
 
 const TOP_MENUS = [
