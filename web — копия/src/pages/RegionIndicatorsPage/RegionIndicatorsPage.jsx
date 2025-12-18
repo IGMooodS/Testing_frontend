@@ -114,6 +114,11 @@ export default function RegionIndicatorsPage() {
   const currentSectionId = getCurrentSectionId();
   const contentBlocks = currentSectionId ? (CONTENT_BLOCKS[currentSectionId] || []) : [];
 
+  // Conditional rendering based on activeTopMenuId
+  // Don't show left button on "regional", don't show right button on "relations"
+  const showLeftButton = activeTopMenuId !== "regional" && prev;
+  const showRightButton = activeTopMenuId !== "relations" && next;
+
   return (
     <div className={styles.page}>
       <NavBar
@@ -154,19 +159,23 @@ export default function RegionIndicatorsPage() {
         <PageNavigationMenu blocks={contentBlocks} />
       )}
 
-      <NavigationButton
-        direction="left"
-        label={prev?.label || ""}
-        onClick={() => handleNavigate(prev)}
-        disabled={!prev}
-      />
-      
-      <NavigationButton
-        direction="right"
-        label={next?.label || ""}
-        onClick={() => handleNavigate(next)}
-        disabled={!next}
-      />
+      <div className={styles.navigationButtons}>
+        {showLeftButton && (
+          <NavigationButton
+            direction="left"
+            label={prev.label}
+            onClick={() => handleNavigate(prev)}
+          />
+        )}
+        
+        {showRightButton && (
+          <NavigationButton
+            direction="right"
+            label={next.label}
+            onClick={() => handleNavigate(next)}
+          />
+        )}
+      </div>
     </div>
   );
 }
