@@ -4,9 +4,6 @@
 
 .button {
   @include button-reset;
-  position: fixed;
-  bottom: $spacing-6;
-  z-index: $z-index-fixed;
   
   display: flex;
   align-items: center;
@@ -41,19 +38,10 @@
 }
 
 .left {
-  left: $spacing-4;
-  
-  @include media-md {
-    left: $spacing-6;
-  }
 }
 
 .right {
-  right: $spacing-4;
-  
-  @include media-md {
-    right: $spacing-6;
-  }
+  margin-left: auto;
 }
 
 .arrow {

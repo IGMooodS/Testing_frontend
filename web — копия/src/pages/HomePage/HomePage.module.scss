@@ -14,6 +14,7 @@
   @include flex-center;
   
   position: fixed;
+  top: $navbar-height;
   color: $color-white;
 
   @include media-sm {
